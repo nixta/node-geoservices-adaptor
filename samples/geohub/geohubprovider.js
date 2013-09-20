@@ -1,12 +1,29 @@
 var util = require("util"),
     dataproviderbase = require("../../src/dataproviderbase"),
+    urls = require("../../src/urls"),
+    geohuburls = require("./geohuburls.js"),
     Geohub = require("geohub"),
     TerraformerArcGIS = require("terraformer/Parsers/ArcGIS"),
     Terraformer = require("terraformer");
 
-var geohubRepoDescription = "Use the following query parameters to output GeoServices info from a GeoJSON Source:" + "<ul>" + "<li><b>githubUser</b>: The repo owner's username</li>" + "<li><b>repoName</b>: The name of the repo containing the GeoJSON file</li>" + "<li><b>filePath</b>: The path to the GeoJSON file within the repo</li>" + "<li><b>geoJSONType</b> (optional): The geoJSON Geometry Type to extract (since a FeatureLayer may emit a featureset with only a single geometry type). " + "If this is omitted, the first geoJSON Geometry will define the type used to filter on. Note, this is ignored if f=geojson. It should be a valid geoJSON type as defined in the geoJSON specification (including case-sensitivity). GeometryCollection is not supported.</li>" + "</ul>" + "You can also specify the URL as .../geohub/rest/services/repo+<b>githubUsername</b>+<b>repoName</b>+<b>filePath</b>+<b>geoJSONType</b>/FeatureService/0<br/>" + "If you use the URL approach, encode path separators in the <b>filePath</b> portion of the URL";
+var geohubRepoDescription = "Use the following parameters in the Service Path to output GeoServices info from a GeoJSON Source:" + 
+	"<ul>" + 
+		"<li><b>githubUser</b>: The repo owner's username</li>" + 
+		"<li><b>repoName</b>: The name of the repo containing the GeoJSON file</li>" + 
+		"<li><b>filePath</b>: The path to the GeoJSON file within the repo</li>" + 
+		"<li><b>geoJSONType</b> (optional): The geoJSON Geometry Type to extract (since a FeatureLayer may emit a featureset with only a single geometry type). " + 
+			"If this is omitted, the first geoJSON Geometry will define the type used to filter on. Note, this is ignored if f=geojson. It should be a valid geoJSON type as defined in the geoJSON specification (including case-sensitivity). GeometryCollection is not supported.</li>" + 
+	"</ul>" + 
+	"You specify the URL as .../geohub/rest/services/repo/<b>githubUsername</b>/<b>repoName</b>/<b>filePath</b>/FeatureService/0<br/>" + "If you use the URL approach, encode path separators in the <b>filePath</b> portion of the URL";
 
-var geohubGistDescription = "Use the following query parameters to output GeoServices info from a GeoJSON Source:" + "<ul>" + "<li><b>gistId</b>: The unique ID of the Gist</li>" + "<li><b>geoJSONType</b> (optional): The geoJSON Geometry Type to extract (since a FeatureLayer may emit a featureset with only a single geometry type). " + "If this is omitted, the first geoJSON Geometry will define the type used to filter on. Note, this is ignored if f=geojson. It should be a valid geoJSON type as defined in the geoJSON specification (including case-sensitivity). GeometryCollection is not supported.</li>" + "</ul>" + "A Gist may include many geoJSON files. The Layer Index is used to return the correct file starting with index 0. " + "If the requested format is geojson (f=geojson) then you may use * for the layerId to return all encountered geoJSON in the gist." + "<br/>You can also specify the URL as .../geohub/rest/services/gist+<b>gistId</b>+<b>geoJSONType</b>/FeatureService/<b>gistFileIndex</b>" + "<br/>For example, to find the 2nd file in gist 6178185, use this URL:<br/><ul><li>.../geohub/rest/services/gist+6178185/FeatureService/1</li></ul>";
+var geohubGistDescription = "Use the following parameters in the Service Path to output GeoServices info from a GeoJSON Source:" + 
+	"<ul>" + 
+		"<li><b>gistId</b>: The unique ID of the Gist</li>" + 
+		"<li><b>geoJSONType</b> (optional): The geoJSON Geometry Type to extract (since a FeatureLayer may emit a featureset with only a single geometry type). " + 
+			"If this is omitted, the first geoJSON Geometry will define the type used to filter on. Note, this is ignored if f=geojson. It should be a valid geoJSON type as defined in the geoJSON specification (including case-sensitivity). GeometryCollection is not supported.</li>" + 
+	"</ul>" +
+	"A Gist may include many geoJSON files. The Layer Index is used to return the correct file starting with index 0. " + 
+	"If the requested format is geojson (f=geojson) then you may use * for the layerId to return all encountered geoJSON in the gist." + "<br/>You can also specify the URL as .../geohub/rest/services/gist+<b>gistId</b>+<b>geoJSONType</b>/FeatureService/<b>gistFileIndex</b>" + "<br/>For example, to find the 2nd file in gist 6178185, use this URL:<br/><ul><li>.../geohub/rest/services/gist+6178185/FeatureService/1</li></ul>";
 
 var globalEnvelope = {
 	"type": "Polygon",
@@ -41,41 +58,14 @@ var fieldTypePriorities = {
 	"esriFieldTypeInteger": ["esriFieldTypeDate"]
 };
 
-function parseServiceId(serviceId, layerId) {
-    var r = {
-    	fullServiceId: serviceId,
-    	typelessFullServiceId: serviceId,
-    	cacheId: serviceId
-    };
-    var parts = serviceId.split("+");
-    r.serviceId = parts[0];
-    switch (r.serviceId) {
-    case "repo":
-    	if (parts.length >= 4) {
-			r.githubUser = parts[1];
-			r.repoName = parts[2];
-			r.filePath = parts[3];
-        }
-        r.geoJSONType = (parts.length > 4) ? parts[4] : null;
-        r.name = util.format("%s::%s::%s", r.githubUser, r.repoName, r.filePath);
-        break;
-    case "gist":
-		if (typeof layerId !== "undefined" && layerId !== null) {
-			r.cacheId += "_" + layerId;
+function getRouteHandler(app, route) {
+	for (var i=0; i<app.routes.get.length; i++) {
+		if (app.routes.get[i].path === route) {
+			return app.routes.get[i].callbacks;
 		}
-        r.gistId = parts[1];
-        r.geoJSONType = (parts.length > 2) ? parts[2] : null;
-        r.name = util.format("%s", r.gistId);
-        break;
-    };
-
-    if (r.geoJSONType) {
-		r.name = util.format("%s::%s", r.name, r.geoJSONType);
-    	r.typelessFullServiceId = r.typelessFullServiceId.slice(0, r.typelessFullServiceId.lastIndexOf("+"));
-    }
-//     console.log(r);
-    return r;
-};
+	}
+	return null;
+}
 
 GeoHubProvider = function(app) {
     GeoHubProvider.super_.call(this);
@@ -92,10 +82,97 @@ GeoHubProvider = function(app) {
         }
     };
     
+    this._urls = new geohuburls.GeoHubUrls(this);
+    
+    var tmpUrls = new urls.Urls(),
+    	fsPath = tmpUrls.getServiceUrl(),
+    	lyrPath = tmpUrls.getLayerUrl(),
+    	queryPath = tmpUrls.getLayerQueryUrl();
+    	
+    var fsCallbacks = getRouteHandler(app, fsPath),
+    	lyrCallbacks = getRouteHandler(app, lyrPath),
+     	queryCallbacks = getRouteHandler(app, queryPath);
+	var s = "[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:/~+#-]*[\w@?^=%&amp;/~+#-])?";
+	var s2 = "[a-zA-Z0-9\/\_\-]+";
+	var repoPathTemplate = ":serviceId/:ghUser/:repoName/:filePath(" + s2 + ")",
+		newDataproviderName = ":dataProviderName(" + this.name + ")",
+		newLayerId = ":layerId";
+    var repoFsPath = fsPath.replace(":dataProviderName", newDataproviderName).replace(":serviceId", repoPathTemplate),
+    	repoLyrPath = lyrPath.replace(":dataProviderName", newDataproviderName).replace(":serviceId", repoPathTemplate),
+    	repoQueryPath = queryPath.replace(":dataProviderName", newDataproviderName).replace(":serviceId", repoPathTemplate);
+
+    app.get(repoFsPath, fsCallbacks);
+    app.post(repoFsPath, fsCallbacks);
+
+    app.get(repoLyrPath, lyrCallbacks);
+    app.post(repoLyrPath, lyrCallbacks);
+
+    app.get(repoQueryPath, queryCallbacks);
+    app.post(repoQueryPath, queryCallbacks);
+
     this._gistCaches = [];
     
     this.getGistCache = function(serviceId, layerId) {
     }
+
+	this.parseServiceId = function(serviceId, layerId) {
+		var rq = this._request.params;
+		
+		var r = {
+			serviceId: rq.serviceId
+		};
+
+		switch (r.serviceId) {
+			case "repo":
+				r.typelessFullServiceId = util.format("%s/%s/%s/%s", rq.serviceId, rq.ghUser, rq.repoName, rq.filePath);
+				break;
+			case "gist":
+				r.typelessFullServiceId = util.format("%s/%s", rq.serviceId, rq.gistId);
+				break;
+		}
+
+		if (rq.hasOwnProperty("geoJSONType")) {
+			r.fullServiceId = util.format("%s+%s", r.typelessFullServiceId, rq.geoJSONType);
+			r.geoJSONType = rq.geoJSONType;
+		} else {
+			r.fullServiceId = r.typelessFullServiceId
+		}
+
+		r.cacheId = r.fullServiceId;
+
+		if (rq.serviceId === r.fullServiceId) {
+			switch (r.serviceId) {
+				case "repo":
+					r.name = "<i>githubUser</i>:<i>repoName</i>:<i>filePath</i>";
+					break;
+				case "gist":
+					r.name = "<i>gistID</i>";
+					break;
+			}
+		} else {
+			switch (rq.serviceId) {
+				case "repo":
+					r.githubUser = rq.ghUser;
+					r.repoName = rq.repoName;
+					r.filePath = rq.filePath;
+					r.name = util.format("%s::%s::%s", r.githubUser, r.repoName, r.filePath);
+					break;
+				case "gist":
+					if (typeof layerId !== "undefined" && layerId !== null) {
+						r.cacheId += "_" + layerId;
+					}
+					r.gistId = rq.gistId;
+					r.name = util.format("%s", r.gistId);
+					break;
+			};
+
+			if (r.hasOwnProperty("geoJSONType")) {
+				r.name = util.format("%s::%s", r.name, r.geoJSONType);
+			}
+		}
+		return r;
+	};
+
 
     console.log("Initialized new GeoHub Data Provider");
 };
@@ -350,9 +427,7 @@ function outputArcGISJSON(geoJSONOutput, cache, query, callback) {
     
     var arcgisOutput = TerraformerArcGIS.convert(filteredGeoJSON);
 	
-	if (query.geohubParams.geoJSONType) {
-		query.outputGeometryType = getEsriGeometryType(query.geohubParams.geoJSONType);
-	}
+	query.outputGeometryType = getEsriGeometryType(typeInfo.type);
 	
 	var idField = cache.layerDetails.idField;
 	
@@ -380,6 +455,12 @@ util.inherits(GeoHubProvider, dataproviderbase.DataProviderBase);
 
 // And now we'll override only what we need to (see also /src/dataproviderbase.js).
 Object.defineProperties(GeoHubProvider.prototype, {
+	getCache: {
+		value: function(serviceId, layerId) {
+			var c = this.parseServiceId(serviceId, layerId);
+			return GeoHubProvider.super_.prototype.getCache.call(this, c.cacheId, layerId);
+		}
+	},
     name: {
         get: function() {
             // Override the service name - every data provider should override this.
@@ -399,13 +480,13 @@ Object.defineProperties(GeoHubProvider.prototype, {
     },
     getServiceName: {
     	value: function(serviceId) {
-    		var c = parseServiceId(serviceId);
+    		var c = this.parseServiceId(serviceId);
     		return c.name;
     	}
     },
     getLayerIds: {
         value: function(serviceId, callback) {
-            var c = parseServiceId(serviceId);
+            var c = this.parseServiceId(serviceId);
             serviceId = c.serviceId;
             switch (serviceId) {
             	case "repo":
@@ -434,11 +515,11 @@ Object.defineProperties(GeoHubProvider.prototype, {
     },
     getLayerName: {
         value: function(serviceId, layerId) {
-            var c = parseServiceId(serviceId);
+            var c = this.parseServiceId(serviceId);
             serviceId = c.serviceId;
             switch (serviceId) {
             	case "repo":
-            		return "Layer " + 0;
+            		return "Layer " + layerId;
             	case "gist":
             		return "Gist " + c.name + " Layer " + layerId;
             }
@@ -446,7 +527,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
     },
     getFeatureServiceDetails: {
         value: function(detailsTemplate, serviceId, callback) {
-            var c = parseServiceId(serviceId);
+            var c = this.parseServiceId(serviceId);
             serviceId = c.serviceId;
 
             if (serviceId === "repo") {
@@ -465,7 +546,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
     },
     geometryType: {
     	value: function(serviceId, layerId) {
-            var c = parseServiceId(serviceId, layerId);
+            var c = this.parseServiceId(serviceId, layerId);
             var r = "esriGeometryPoint";
             if (c.geoJSONType) {
             	r = getEsriGeometryType(c.geoJSONType);
@@ -498,7 +579,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
     	value: function(detailsTemplate, serviceId, layerId, query, callback) {
             var provider = this;
             this._readGeoHubGeoJSON(serviceId, layerId, query, function(data, err) {
-                var c = parseServiceId(serviceId, layerId);
+                var c = provider.parseServiceId(serviceId, layerId);
                 geohubServiceId = c.serviceId;
 
 				if (detailsTemplate) {
@@ -588,7 +669,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
 
             	var geoJSONData = layerDetails.geoJSONData;
             	
-				var c = parseServiceId(serviceId, layerId);
+				var c = provider.parseServiceId(serviceId, layerId);
 				serviceId = c.serviceId;
 
 				query.geohubParams = c;
@@ -629,7 +710,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
 	},
     _loadDataFromCache: {
     	value: function(serviceId, layerId, query, callback) {
-			var c = parseServiceId(serviceId, layerId);
+			var c = this.parseServiceId(serviceId, layerId);
 			if (c.serviceId === "gist" && layerId === "*") {
 				var allResults = [];
 				var allCaches = this.cachesForService(serviceId);
@@ -712,7 +793,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
 	},
 	_populateCacheIfNecessary: {
 		value: function(serviceId, layerId, query, callback) {
-			var c = parseServiceId(serviceId, layerId);
+			var c = this.parseServiceId(serviceId, layerId);
 			var cache = null;
 
 			if (c.serviceId === "repo") {
@@ -736,7 +817,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
 					var user = c.githubUser;
 					var repo = c.repoName;
 					var file = c.filePath;
-
+					
 					Geohub.repo(user, repo, file, function(err, geoJSONData) {
 						if (err) {
 							callback(err);
@@ -831,6 +912,7 @@ Object.defineProperties(GeoHubProvider.prototype, {
     _readGeoHubGeoJSON: {
         value: function(serviceId, layerId, query, callback) {
         	var provider = this;
+
 			this._populateCacheIfNecessary(serviceId, layerId, query, function(err) {
 
 				// We'll only get called if there was an error populating the cache.
