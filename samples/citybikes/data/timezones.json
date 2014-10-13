@@ -26,6 +26,15 @@
     "timestamp": 1391993467,
     "cacheRefreshDue": 1392076269278
   },
+  "ascoli-piceno": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221243,
+    "cacheRefreshDue": 1413300456134
+  },
   "ascolipiceno": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -89,6 +98,33 @@
     "timestamp": 1391961107,
     "cacheRefreshDue": 1392076310188
   },
+  "bici-co": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300457184
+  },
+  "bici-in-busto": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221243,
+    "cacheRefreshDue": 1413300456393
+  },
+  "bici-perugia": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300456874
+  },
   "biciamo": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -124,6 +160,15 @@
     "dst": "0",
     "timestamp": 1391993500,
     "cacheRefreshDue": 1392076304184
+  },
+  "bicileon": {
+    "countryCode": "ES",
+    "zoneName": "Europe/Madrid",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221243,
+    "cacheRefreshDue": 1413300456084
   },
   "bicing": {
     "countryCode": "ES",
@@ -197,6 +242,33 @@
     "timestamp": 1391971865,
     "cacheRefreshDue": 1392076267071
   },
+  "bike-in-bath": {
+    "countryCode": "GB",
+    "zoneName": "Europe/London",
+    "abbreviation": "BST",
+    "gmtOffset": "3600",
+    "dst": "1",
+    "timestamp": 1413217643,
+    "cacheRefreshDue": 1413300456523
+  },
+  "bikebh": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457623
+  },
+  "bikebrasilia": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203244,
+    "cacheRefreshDue": 1413300457358
+  },
   "bikeinbath": {
     "countryCode": "GB",
     "zoneName": "Europe/London",
@@ -205,6 +277,87 @@
     "dst": "0",
     "timestamp": 1391989867,
     "cacheRefreshDue": 1392076269698
+  },
+  "bikemi": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221243,
+    "cacheRefreshDue": 1413300456071
+  },
+  "bikepetrolina": {
+    "countryCode": "BR",
+    "zoneName": "America/Recife",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457629
+  },
+  "bikepoa": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457478
+  },
+  "bikerecife": {
+    "countryCode": "BR",
+    "zoneName": "America/Recife",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457576
+  },
+  "bikerio": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457664
+  },
+  "bikesalvador": {
+    "countryCode": "BR",
+    "zoneName": "America/Bahia",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457718
+  },
+  "bikesampa": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457461
+  },
+  "bikesantos": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457766
+  },
+  "bikesorocaba": {
+    "countryCode": "BR",
+    "zoneName": "America/Sao_Paulo",
+    "abbreviation": "BRT",
+    "gmtOffset": "-10800",
+    "dst": "0",
+    "timestamp": 1413203245,
+    "cacheRefreshDue": 1413300457541
   },
   "bixi-montreal": {
     "countryCode": "CA",
@@ -259,6 +412,15 @@
     "dst": "0",
     "timestamp": 1391971879,
     "cacheRefreshDue": 1392076293040
+  },
+  "bubi": {
+    "countryCode": "HU",
+    "zoneName": "Europe/Budapest",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300457434
   },
   "bysykkel-lillestrom": {
     "countryCode": "NO",
@@ -322,6 +484,15 @@
     "dst": "0",
     "timestamp": 1391993466,
     "cacheRefreshDue": 1392076268568
+  },
+  "ciclopi": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300457372
   },
   "citibikenyc": {
     "countryCode": "US",
@@ -467,6 +638,15 @@
     "timestamp": 1391993467,
     "cacheRefreshDue": 1392076269608
   },
+  "free-bike-sharing": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221243,
+    "cacheRefreshDue": 1413300456496
+  },
   "freebikesharing": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -557,6 +737,15 @@
     "timestamp": 1391971865,
     "cacheRefreshDue": 1392076281451
   },
+  "idecycle": {
+    "countryCode": "FR",
+    "zoneName": "Europe/Paris",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221263,
+    "cacheRefreshDue": 1413300475885
+  },
   "jesinbici": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -620,6 +809,15 @@
     "timestamp": 1391968288,
     "cacheRefreshDue": 1392076296353
   },
+  "manerba-in-bici": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300456636
+  },
   "manerbainbici": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -638,6 +836,15 @@
     "timestamp": 1391993467,
     "cacheRefreshDue": 1392076268741
   },
+  "mar-e-bici": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300456882
+  },
   "marebici": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -646,6 +853,15 @@
     "dst": "0",
     "timestamp": 1391993468,
     "cacheRefreshDue": 1392076269908
+  },
+  "meglio-in-bici": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221243,
+    "cacheRefreshDue": 1413300456324
   },
   "meglioinbici": {
     "countryCode": "IT",
@@ -1160,6 +1376,15 @@
     "timestamp": 1391993476,
     "cacheRefreshDue": 1392076278501
   },
+  "pavia-in-bici": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300456747
+  },
   "piacenza": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -1196,6 +1421,15 @@
     "timestamp": 1391993466,
     "cacheRefreshDue": 1392076268655
   },
+  "portofino-park-and-bike": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221263,
+    "cacheRefreshDue": 1413300475855
+  },
   "portofinoparkandbike": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -1213,6 +1447,15 @@
     "dst": "0",
     "timestamp": 1391993467,
     "cacheRefreshDue": 1392076268823
+  },
+  "reggio-emilia": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300456972
   },
   "reggioemilia": {
     "countryCode": "IT",
@@ -1340,6 +1583,15 @@
     "timestamp": 1391993499,
     "cacheRefreshDue": 1392076300996
   },
+  "terni": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300457140
+  },
   "Terni": {
     "countryCode": "IT",
     "zoneName": "Europe/Rome",
@@ -1357,6 +1609,15 @@
     "dst": "0",
     "timestamp": 1391993468,
     "cacheRefreshDue": 1392076282362
+  },
+  "tirano-in-bici": {
+    "countryCode": "IT",
+    "zoneName": "Europe/Rome",
+    "abbreviation": "CEST",
+    "gmtOffset": "7200",
+    "dst": "1",
+    "timestamp": 1413221244,
+    "cacheRefreshDue": 1413300457217
   },
   "tiranoinbici": {
     "countryCode": "IT",
